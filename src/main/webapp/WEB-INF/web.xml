@@ -7,4 +7,15 @@
   <welcome-file-list>
     <welcome-file>/jsps/home.jsp</welcome-file>
   </welcome-file-list>
+
+  <servlet>
+    <servlet-name>AboutServlet</servlet-name>
+    <jsp-file>/jsps/about.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>AboutServlet</servlet-name>
+    <url-pattern>/about</url-pattern>
+  </servlet-mapping>
+
 </web-app>
