@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    tools {
+        maven "Maven3.9.9"
+    }
+    
+    environment {
+        SONARQUBE_URL='URL'
+        TOMCAT_IP='IP-here'
+        TOMCAT_USERNAME='<username>'
+        TOMCAT_PASSWORD='<password-here>'
+        TOMCAT_PATH='<path-to-tomcat>'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                git 'https://github.com/satya954/mekafu-prime.git'
+                
+                sh "mvn clean package -DskipTests"
+            }
+        }   
+       stage('Sonarqube Analysis'){
+            steps{
+                withSonarQubeEnv('sonarqube-50') {
+                 sh "mvn sonar:sonar"
+                }
+            }
+        }
+        stage('Push to Nexus'){
+            steps{
+                sh 'mvn clean deploy -s /opt/apache-maven-3.9.9/conf/settings.xml'
+            }
+        }
+        
+        stage('Deploy to Tomcat'){
+            steps{
+                sh "sshpass -p'${TOMCAT_PASSWORD}'  scp target/*.war ${TOMCAT_USERNAME}@${TOMCAT_IP}:${TOMCAT_PATH}/webapps/"
+            }
+        }
+        
+    }
+}
+
