@@ -6,6 +6,7 @@
   <artifactId>mekafu</artifactId>
   <version>0.0.1</version>
   <packaging>war</packaging>
+
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -13,6 +14,17 @@
     <relativePath/> <!-- Look up from the Maven repository -->
   </parent>
 
+	<properties>
+		<jdk.version>1.8</jdk.version>
+		<spring.version>5.1.2.RELEASE</spring.version>
+		<junit.version>4.11</junit.version>
+		<log4j.version>1.2.17</log4j.version>
+		<sonar.host.url>http://192.168.1.50:9000/</sonar.host.url>
+		<sonar.token>squ_539d6a9b779d63c6d13433d0d1b5aa94d213cf5b</sonar.token> 
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+	</properties>
 
   <build>
     <plugins>
