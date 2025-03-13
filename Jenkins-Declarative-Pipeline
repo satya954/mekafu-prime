@@ -1,10 +1,8 @@
 pipeline {
     agent any
 
-    buildName 'Declarative-pipeline-#${BUILD_NUMBER}'
-
     tools {
-        def mvnHome = tool name: "Maven3.9.9", type 'maven'
+        maven "Maven3.9.9"
     }
     
     environment {
@@ -13,6 +11,7 @@ pipeline {
         TOMCAT_USERNAME='<username>'
         TOMCAT_PASSWORD='<password-here>'
         TOMCAT_PATH='<path-to-tomcat>'
+	BUILD_NAME = "Tomcat-Deploy-${env.BUILD_NUMBER}"
     }
 
     stages {
@@ -20,19 +19,19 @@ pipeline {
             steps {
                 git 'https://github.com/satya954/mekafu-prime.git'
                 
-                sh "${mvnHome}/bin/mvn clean package -DskipTests"
+                sh "mvn clean package -DskipTests"
             }
         }   
        stage('Sonarqube Analysis'){
             steps{
                 withSonarQubeEnv('sonarqube-50') {
-                 sh "${mvnHome}/bin/mvn sonar:sonar"
+                 sh "mvn sonar:sonar"
                 }
             }
         }
         stage('Push to Nexus'){
             steps{
-                sh '${mvnHome}/bin/mvn clean deploy -s /opt/apache-maven-3.9.9/conf/settings.xml'
+                sh 'mvn clean deploy -s /opt/apache-maven-3.9.9/conf/settings.xml'
             }
         }
         
