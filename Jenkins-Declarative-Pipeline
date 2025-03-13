@@ -1,8 +1,10 @@
 pipeline {
     agent any
 
+    buildName 'Declarative-pipeline-#${BUILD_NUMBER}'
+
     tools {
-        maven "Maven3.9.9"
+        def mvnHome = tool name: "Maven3.9.9", type 'maven'
     }
     
     environment {
@@ -18,19 +20,19 @@ pipeline {
             steps {
                 git 'https://github.com/satya954/mekafu-prime.git'
                 
-                sh "mvn clean package -DskipTests"
+                sh "${mvnHome}/bin/mvn clean package -DskipTests"
             }
         }   
        stage('Sonarqube Analysis'){
             steps{
                 withSonarQubeEnv('sonarqube-50') {
-                 sh "mvn sonar:sonar"
+                 sh "${mvnHome}/bin/mvn sonar:sonar"
                 }
             }
         }
         stage('Push to Nexus'){
             steps{
-                sh 'mvn clean deploy -s /opt/apache-maven-3.9.9/conf/settings.xml'
+                sh '${mvnHome}/bin/mvn clean deploy -s /opt/apache-maven-3.9.9/conf/settings.xml'
             }
         }
         
