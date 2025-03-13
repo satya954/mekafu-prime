@@ -30,8 +30,10 @@ out.println("Server Host Name :: "+inetAddress.getHostName());
 <hr>
 <div style="text-align: center;">
 	 <span>
-		<img src="images/mekafu-logo2.jpg" alt="" width="100">
+		<img src="images/mekafu-logo2.jpg" alt="" width="200">
 	</span>
+</div>
+<div style="text-align: center;">
 	<span style="font-weight: bold;">
 		This is a Testing Site
 	</span>
